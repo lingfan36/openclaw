@@ -1,0 +1,101 @@
+{
+  "providers": {
+    "openai-codex": {
+      "baseUrl": "https://chatgpt.com/backend-api",
+      "api": "openai-codex-responses",
+      "models": []
+    },
+    "nvidia": {
+      "baseUrl": "https://integrate.api.nvidia.com/v1",
+      "apiKey": "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",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "moonshotai/kimi-k2.5",
+          "name": "Kimi K2.5",
+          "reasoning": false,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 262144,
+          "maxTokens": 8192
+        },
+        {
+          "id": "minimaxai/minimax-m2.5",
+          "name": "minimaxai",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 128000,
+          "maxTokens": 8192
+        },
+        {
+          "id": "z-ai/glm4.7",
+          "name": "GLM 4.7",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        },
+        {
+          "id": "deepseek-ai/deepseek-v3.2",
+          "name": "DeepSeek V3.2",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        },
+        {
+          "id": "mistralai/mixtral-8x22b-instruct",
+          "name": "Mixtral 8x22B Instruct",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "contextWindow": 65536,
+          "maxTokens": 8192
+        },
+        {
+          "id": "nvidia/nemotron-3-super-120b-a12b",
+          "name": "nemotron-3-super-120b-a12b",
+          "reasoning": true,
+          "input": [
+            "text"
+          ],
+          "contextWindow": 20000,
+          "maxTokens": 16384
+        }
+      ]
+    },
+    "evolai": {
+      "baseUrl": "https://mg-new.evolai.cn/openclaw-proxy/v1",
+      "apiKey": "mg-U-ZHUVIHLy6tmjO0yAnr_TsQ7GYWJvN0AW5D7KoAOf8",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "contextWindow": 200000,
+          "maxTokens": 16384
+        }
+      ]
+    }
+  }
+}
