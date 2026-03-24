@@ -1,0 +1,112 @@
+[
+  {
+    "id": "A-001",
+    "layer": "A",
+    "principle": "A5",
+    "desc": "316 个配置文件(config.ts, config-apply.ts, config-schema.ts 等)，可能存在配置复杂度问题",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "false-positive"
+  },
+  {
+    "id": "A-002",
+    "layer": "A",
+    "principle": "A7",
+    "desc": "State pattern in setup-account-state.ts — 需确认是否过度设计",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "false-positive"
+  },
+  {
+    "id": "A-003",
+    "layer": "A",
+    "principle": "A2",
+    "desc": "MF=6.0: 30%+ 模块为微型模块(2384/4583)，项目可能过度模块化",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "intentional-design-philosophy"
+  },
+  {
+    "id": "A-004",
+    "layer": "A",
+    "principle": "A6",
+    "desc": "147 个事件系统文件(events.ts, webhook-shared.ts, subagent-hooks.ts 等)，需确认是否过度事件化",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "false-positive"
+  },
+  {
+    "id": "M-001",
+    "layer": "M",
+    "principle": "C5",
+    "desc": "目录按技术层组织而非按功能: adapters/, controllers/, models/, routes/, schemas/, services/ 各1处",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "false-positive"
+  },
+  {
+    "id": "C-001",
+    "layer": "C",
+    "principle": "C4",
+    "desc": "DC=2.0: 7 个零调用者实体，需确认是否可删除",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "false-positive"
+  },
+  {
+    "id": "C-002",
+    "layer": "C",
+    "principle": "C2",
+    "desc": "根目录 7 个 vitest config 小文件(<80行)，考虑合并",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "false-positive"
+  },
+  {
+    "id": "C-003",
+    "layer": "C",
+    "principle": "C7",
+    "desc": "CD=6.0: extensions ↔ src 循环依赖",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "intentional-architecture"
+  },
+  {
+    "id": "C-004",
+    "layer": "C",
+    "principle": "C1",
+    "desc": "RE=8.0: 703 个模块只做 re-export 无自身逻辑",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "proportional-to-scale"
+  },
+  {
+    "id": "C-005",
+    "layer": "C",
+    "principle": "C3",
+    "desc": "105 个文件路径深度 ≥5，目录嵌套过深",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "intentional-extension-structure"
+  },
+  {
+    "id": "C-006",
+    "layer": "C",
+    "principle": "C8",
+    "desc": "FS=6.0: 2242/21246 个函数超过 50 行",
+    "status": "✅ 已完成",
+    "approach": "",
+    "progress": "",
+    "commit": "scale-not-actionable-in-auto-loop"
+  }
+]
