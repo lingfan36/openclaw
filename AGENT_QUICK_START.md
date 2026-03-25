@@ -929,6 +929,85 @@ Detailed documentation goes here...
 - 往 workspace 写文件
 - 调外部 API ([OpenClaw](https://docs.openclaw.ai/automation/hooks))
 
+## 9）两套 Hook 系统的区别（重要）
+
+OpenClaw 有**两套独立的 hook 系统**，容易混淆：
+
+| 特性 | Internal Hook（HOOK.md 文件夹式） | Plugin Hook（extensions/ 式） |
+|------|----------------------------------|-------------------------------|
+| 注册方式 | `~/.openclaw/hooks/<name>/HOOK.md` + `handler.ts` | `extensions/<name>/index.ts` 中 `api.on(...)` |
+| 支持事件 | `command:new`, `command:reset`, `session:*`, `gateway:*`, `message:*` | 全部事件，包括 `before_tool_call`, `after_tool_call`, `llm_input`, `llm_output` 等 |
+| 能否拦截工具调用 | **不能** | **能**（`before_tool_call` 返回 `{ block: true }` 硬拦截） |
+| 适合场景 | 审计日志、session 生命周期、命令拦截 | 工具权限控制、prompt 注入、模型选择 |
+
+**关键发现**：`before_tool_call` 只在 Plugin Hook 系统中可用（`src/plugins/types.ts:1416`），Internal Hook 不支持。如果要做 per-agent 工具拦截，必须写 extension plugin。
+
+## 10）Plugin Hook 实现 per-agent 工具拦截
+
+MCP 工具是全局共享的（`mcp.servers` 配置在全局级别），所有 agent 都能看到所有 MCP 工具。`agents.list[].tools.deny` 只过滤内置工具，不过滤 MCP 工具。
+
+**解决方案**：用 extension plugin 注册 `before_tool_call` hook，根据 `ctx.agentId` + `event.toolName` 硬拦截。
+
+示例 plugin：`extensions/agent-tool-guard/`
+
+```ts
+// index.ts
+import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
+
+export default definePluginEntry({
+  id: "agent-tool-guard",
+  name: "Agent Tool Guard",
+  description: "Per-agent tool access control via before_tool_call hook",
+  register(api) {
+    const config = api.pluginConfig as { rules?: Record<string, string[]> };
+    const rules = config?.rules ?? {};
+
+    api.on("before_tool_call", (_event, ctx) => {
+      const patterns = rules[ctx.agentId ?? ""];
+      if (!patterns) return;
+      const blocked = patterns.some(p =>
+        p.endsWith("*") ? ctx.toolName.startsWith(p.slice(0, -1)) : ctx.toolName === p
+      );
+      if (blocked) {
+        return {
+          block: true,
+          blockReason: `Tool "${ctx.toolName}" is not allowed for agent "${ctx.agentId}"`,
+        };
+      }
+    });
+  },
+});
+```
+
+在 `openclaw.json` 中启用并配置规则：
+
+```json5
+{
+  plugins: {
+    entries: {
+      "agent-tool-guard": {
+        enabled: true,
+        config: {
+          rules: {
+            "search": ["writing_*", "write", "edit"],      // search 禁止写作工具
+            "writing": ["local_find", "local_grep"]         // writing 禁止本地搜索
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+`before_tool_call` hook 的 context 包含：
+- `ctx.agentId` — 当前 agent ID
+- `ctx.toolName` — 被调用的工具名
+- `ctx.sessionKey` — session 标识
+- `ctx.sessionId` — session UUID
+- `ctx.runId` — 本轮调用 ID
+
+返回 `{ block: true, blockReason: "..." }` 即硬拦截，agent 会收到错误信息。
+
 ------
 
 # 十二、模型配置：手动改哪几个位置

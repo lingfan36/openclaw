@@ -1,0 +1,17 @@
+{
+  "id": "agent-tool-guard",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "rules": {
+        "type": "object",
+        "description": "Per-agent tool deny rules. Key is agentId, value is array of tool name patterns (supports * wildcard).",
+        "additionalProperties": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

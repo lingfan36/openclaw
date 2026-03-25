@@ -1,0 +1,12 @@
+{
+  "name": "@openclaw/agent-tool-guard",
+  "version": "2026.3.25",
+  "private": true,
+  "description": "Per-agent tool access control via before_tool_call hook",
+  "type": "module",
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}
