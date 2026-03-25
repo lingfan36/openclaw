@@ -29,6 +29,8 @@ import { createTtsTool } from "./tools/tts-tool.js";
 import { createWebFetchTool, createWebSearchTool } from "./tools/web-tools.js";
 import { createLocalFindTool } from "./tools/local-find.js";
 import { createLocalGrepTool } from "./tools/local-grep.js";
+import { createOfficeGateTool } from "./tools/office-gate.js";
+import { createTaskContextTool } from "./tools/task-context.js";
 import { resolveWorkspaceRoot } from "./workspace-dir.js";
 
 type OpenClawToolsDeps = {
@@ -246,6 +248,8 @@ export function createOpenClawTools(
     ...(webFetchTool ? [webFetchTool] : []),
     localFindTool,
     localGrepTool,
+    createOfficeGateTool(),
+    createTaskContextTool(workspaceDir),
     ...(imageTool ? [imageTool] : []),
     ...(pdfTool ? [pdfTool] : []),
   ];
